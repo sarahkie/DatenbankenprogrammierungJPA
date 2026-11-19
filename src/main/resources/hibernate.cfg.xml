@@ -30,6 +30,7 @@
         </property>
         <!-- Entity-Klassen registrieren -->
         <mapping class="at.campus02.User"/>
+        <mapping class="at.campus02.Geschenk"/>
         <!-- XML-Mapping -->
     </session-factory>
 </hibernate-configuration>

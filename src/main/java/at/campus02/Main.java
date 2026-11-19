@@ -63,18 +63,18 @@ public class Main {
             updateDetachedUser(foundUserHQL);
             deleteUserById(1);
 
-            /*
-            // Neues Buch erstellen
-            Buch buch = new Buch();
-            buch.setTitel("Java Grundlagen");
-            buch.setIsbn("xyz-922-23");
+
+            // Neues Geschenk erstellen
+            Geschenk geschenk = new Geschenk();
+            geschenk.setGeschenksEmpfaenger("Jan");
+            geschenk.setGeschenksIdee("Puzzle");
 
             // Buch in der Datenbank speichern
-            insertBuch(buch);
+            insertGeschenk(geschenk);
 
             // Buch mit generierter ID ausgeben
-            System.out.println(buch);
-            */
+            System.out.println(geschenk);
+
 
 
         } finally {
@@ -83,7 +83,6 @@ public class Main {
         }
 
     }
-
 
     public static void insertUser(User newUser){
         try (Session session = sessionFactory.openSession()) {
@@ -259,8 +258,8 @@ public class Main {
         }
     }
 
-    /*
-    public static void insertBuch(Buch newBuch) {
+
+    public static void insertGeschenk(Geschenk newGeschenk) {
 
         try (Session session = sessionFactory.openSession()) {
 
@@ -268,16 +267,16 @@ public class Main {
             Transaction transaction = session.beginTransaction();
 
             // Buch speichern
-            session.persist(newBuch);
+            session.persist(newGeschenk);
 
             // Transaktion bestätigen
             transaction.commit();
 
             // Generierte ID ausgeben
-            System.out.println("Buch erfolgreich gespeichert!");
-            System.out.println("Buch-ID: " + newBuch.getId());
+            System.out.println("Geschenk erfolgreich gespeichert!");
+            System.out.println("Geschenk-ID: " +newGeschenk.getGeschenksId());
         }
     }
 
-     */
+
 }
