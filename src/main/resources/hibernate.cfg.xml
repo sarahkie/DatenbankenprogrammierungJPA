@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "https://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- SQLite JDBC-Treiber -->
+        <property name="hibernate.connection.driver_class">
+            org.sqlite.JDBC
+        </property>
+        <!-- SQLite-Datenbank -->
+        <property name="hibernate.connection.url">
+            jdbc:sqlite:campus02.db
+        </property>
+        <!-- SQLite-Dialekt -->
+        <property name="hibernate.dialect">
+            org.hibernate.community.dialect.SQLiteDialect
+        </property>
+        <!-- Tabellen automatisch erstellen/aktualisieren -->
+        <property name="hibernate.hbm2ddl.auto">
+            update
+        </property>
+        <!-- SQL-Befehle in der Konsole anzeigen -->
+        <property name="hibernate.show_sql">
+            true
+        </property>
+        <!-- SQL-Befehle formatiert anzeigen -->
+        <property name="hibernate.format_sql">
+            true
+        </property>
+        <!-- Entity-Klassen registrieren -->
+        <mapping class="at.campus02.User"/>
+        <!-- XML-Mapping -->
+    </session-factory>
+</hibernate-configuration>
