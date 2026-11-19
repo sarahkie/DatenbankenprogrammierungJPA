@@ -9,7 +9,8 @@ import org.hibernate.query.SelectionQuery;
 import java.util.List;
 
 public class Main {
-    private  static SessionFactory sessionFactory=null;
+    private static SessionFactory sessionFactory = null;
+
     public static void main(String[] args) {
         // Hibernate initialisieren
         sessionFactory = new Configuration()
@@ -58,7 +59,7 @@ public class Main {
                 System.out.println(u.getFirstname() + " " + u.getLastname());
             }
 
-            changeUser(1,"Johann Hans");
+            changeUser(1, "Johann Hans");
 
             updateDetachedUser(foundUserHQL);
             deleteUserById(1);
@@ -66,15 +67,22 @@ public class Main {
 
             // Neues Geschenk erstellen
             Geschenk geschenk = new Geschenk();
-            geschenk.setGeschenksEmpfaenger("Jan");
-            geschenk.setGeschenksIdee("Puzzle");
+            geschenk.setGeschenksEmpfaenger("Jakob");
+            geschenk.setGeschenksIdee("Lupin Kostüm");
 
+            Geschenk nocheinGeschenk = new Geschenk();
+            nocheinGeschenk.setGeschenksEmpfaenger("Sophie");
+            nocheinGeschenk.setGeschenksIdee("Dinosaurier");
             // Buch in der Datenbank speichern
             insertGeschenk(geschenk);
+            insertGeschenk(nocheinGeschenk);
+            List<Geschenk> sophiesGeschenke = getSophiesGeschenke();
+            for (Geschenk g : sophiesGeschenke) {
+                System.out.println(g);
+            }
 
-            // Buch mit generierter ID ausgeben
+            // Geschenk mit generierter ID ausgeben
             System.out.println(geschenk);
-
 
 
         } finally {
@@ -84,7 +92,7 @@ public class Main {
 
     }
 
-    public static void insertUser(User newUser){
+    public static void insertUser(User newUser) {
         try (Session session = sessionFactory.openSession()) {
 
             Transaction transaction = session.beginTransaction();
@@ -92,21 +100,19 @@ public class Main {
             transaction.commit();
             System.out.println("User erfolgreich gespeichert!");
             System.out.println("User-ID: " + newUser.getUserId());
-        }
-        finally {
+        } finally {
 
         }
     }
 
-    public static void displayAllUsers(){
+    public static void displayAllUsers() {
         try (Session session = sessionFactory.openSession()) {
 
-            List<User> myUsers= session.createQuery("select u from User u",User.class).list();
+            List<User> myUsers = session.createQuery("select u from User u", User.class).list();
             for (User user : myUsers) {
                 System.out.println(user);
             }
-        }
-        finally {
+        } finally {
 
         }
     }
@@ -137,6 +143,7 @@ public class Main {
                     .uniqueResult();
         }
     }
+
     public static List<User> getWeiblicheUser() {
 
         try (Session session = sessionFactory.openSession()) {
@@ -224,6 +231,7 @@ public class Main {
             return managedUser;
         }
     }
+
     public static void deleteUserById(int userId) {
 
         try (Session session = sessionFactory.openSession()) {
@@ -274,9 +282,29 @@ public class Main {
 
             // Generierte ID ausgeben
             System.out.println("Geschenk erfolgreich gespeichert!");
-            System.out.println("Geschenk-ID: " +newGeschenk.getGeschenksId());
+            System.out.println("Geschenk-ID: " + newGeschenk.getGeschenksId());
         }
     }
 
+    public static List<Geschenk> getSophiesGeschenke() {
+
+        try (Session session = sessionFactory.openSession()) {
+
+            // 1. HQL-Abfrage erstellen
+            SelectionQuery<Geschenk> query = session.createQuery(
+                    "select g from Geschenk g where g.geschenksEmpfaenger = :empf",
+                    Geschenk.class
+            );
+
+            // 2. Parameter setzen
+            query.setParameter("empf", "Sophie");
+
+            // 3. Abfrage ausführen und Ergebnis speichern
+            List<Geschenk> sophiesGeschenke = query.list();
+
+            // 4. Ergebnis zurückgeben
+            return sophiesGeschenke;
+        }
+    }
 
 }
